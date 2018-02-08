@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "841908285975",
+    "firebase_url": "https://connect-4-wear.firebaseio.com",
+    "project_id": "connect-4-wear",
+    "storage_bucket": "connect-4-wear.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841908285975:android:e2ccfc7637712711",
+        "android_client_info": {
+          "package_name": "com.ignis_apps.connect4wear"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841908285975-52sf0ed0jovgg70aksoumli1lsfck505.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChMAucwsE1ofMiD0SMYBf786aLEHsNYpU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

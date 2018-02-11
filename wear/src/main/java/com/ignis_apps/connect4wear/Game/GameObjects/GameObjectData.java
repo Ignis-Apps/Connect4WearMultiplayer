@@ -1,4 +1,4 @@
-package com.ignis_apps.connect4wear.Game;
+package com.ignis_apps.connect4wear.Game.GameObjects;
 
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -8,7 +8,7 @@ import android.graphics.Rect;
  * Created by Andreas on 07.02.2018.
  */
 
-public class GameObject {
+public class GameObjectData {
 
     private int width;
     private int height;

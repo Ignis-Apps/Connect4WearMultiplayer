@@ -137,12 +137,40 @@ public class Board extends GameObjectData {
 
     public int[][] getBoardAsArray(){
         int out[][] = new int[BoardConfig.board_colums][BoardConfig.board_rows];
+
+        System.out.println("STONE SIZE" + stones.size());
+
         for(Stone s: stones){
             int p = (s.isRed()) ? 1 : 2;
+            System.out.println(s.getColum()+" " + s.getRow());
+
             out[s.getColum()][s.getRow()] = p;
         }
         return out;
     }
+
+    public void setBoard(int[][] board){
+        stones.clear();
+        int cIndex = 0;
+        for(int[] colum:board){
+            int rIndex = 0;
+            for(int row:colum){
+                if(row ==1){
+                    Stone s = new Stone(rIndex,cIndex);
+                    s.setIsRed(true);
+                    stones.add(s);
+                }else if(row == 2){
+                    Stone s = new Stone(rIndex,cIndex);
+                    s.setIsRed(false);
+                    stones.add(s);
+                }
+                rIndex++;
+            }
+            cIndex++;
+        }
+    }
+
+
 
 
     public void setStones(ArrayList<Stone> stones){

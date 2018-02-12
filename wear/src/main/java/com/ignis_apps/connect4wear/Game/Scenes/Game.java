@@ -86,11 +86,15 @@ public class Game implements AIInterface {
 
     }
 
+    public void setLockInput(boolean b){
+        lockInput = b;
+    }
+
     public void handleInput(MotionEvent event){
 
         switch (event.getAction()){
 
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
 
                 if(!gameHasEnded&&!lockInput){
 
@@ -127,7 +131,7 @@ public class Game implements AIInterface {
                         }else {
                             return;
                         }
-                            checkForWin();
+                        checkForWin();
 
                         if(GAME_TYPE == HUMAN_VS_AI&&!gameHasEnded){
                             doAIStuff();
@@ -155,7 +159,7 @@ public class Game implements AIInterface {
 
                 break;
 
-            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_DOWN:
 
                 break;
 
@@ -211,6 +215,10 @@ public class Game implements AIInterface {
 
         }
 
+    }
+
+    public Board getBoard(){
+        return board;
     }
 
     private void doAIStuff(){

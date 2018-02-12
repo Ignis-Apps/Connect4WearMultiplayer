@@ -8,5 +8,7 @@ public interface OpenGLPanelCallback {
 
     void requestNewFrame();
     OpenGLRenderer getRenderer();
+    void vibrate(int ms);
+    OpenGLPanel getInstance();
 
 }

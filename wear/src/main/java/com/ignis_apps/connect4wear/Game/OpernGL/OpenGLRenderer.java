@@ -39,7 +39,7 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer {
         tManager = new TextureManager(c);
         tLoader = new TextureLoader(tManager);
 
-        game = new Game(c,callback);
+        game = new Game(c,callback,callback.getInstance().gameInterface);
         menu = new Menu(callback);
 
     }
@@ -107,6 +107,15 @@ public class OpenGLRenderer implements GLSurfaceView.Renderer {
     public void startGame(int GAMEMODE){
         game.startGame(GAMEMODE);
         CURRENT_STATE = STATE_GAME;
+    }
+
+    public void showMainMenu(){
+        CURRENT_STATE = STATE_MENU;
+        menu.setMenu(menu.MENUE_MAIN);
+    }
+
+    public Game getGame(){
+        return game;
     }
 
     // Get Screen Size X

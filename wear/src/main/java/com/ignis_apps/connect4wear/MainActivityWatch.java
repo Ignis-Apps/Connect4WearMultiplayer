@@ -90,7 +90,14 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
     @Override
     protected void onStart() {
         super.onStart();
+        dataClient.addListener(this);
         sendDataItem("/launch", Long.toBinaryString(System.currentTimeMillis()).getBytes());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        dataClient.removeListener(this);
     }
 
     private void sendDataItem(String path, byte[] data) {
@@ -137,6 +144,6 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
 
     @Override
     public void onGameCompleted(int player_who_won) {
-        sendDataItem("/finished", (""+player_who_won).getBytes());
+        sendDataItem("/finished", (""+player_who_won + " / " + Long.toBinaryString(System.currentTimeMillis())).getBytes());
     }
 }

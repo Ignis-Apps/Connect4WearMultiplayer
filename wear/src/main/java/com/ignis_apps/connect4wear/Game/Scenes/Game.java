@@ -73,6 +73,8 @@ public class Game implements AIInterface {
         hud.hideReplayButton();
         stone.setBoardPosition(-1,3);
         gameHasEnded = false;
+        if(GAME_TYPE==HUMAN_VS_AI)
+            setLockInput(false);
 
     }
 
@@ -219,6 +221,10 @@ public class Game implements AIInterface {
 
     public Board getBoard(){
         return board;
+    }
+
+    public Stone getControlStone(){
+        return stone;
     }
 
     private void doAIStuff(){

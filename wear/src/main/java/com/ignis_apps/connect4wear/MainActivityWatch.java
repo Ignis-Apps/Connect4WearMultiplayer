@@ -53,30 +53,35 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
                     colum_index++;
                     break;
                 default:
-                    System.out.println("c " + colum_index+" r: " + row_index + " value" + c);
+                   // System.out.println("c " + colum_index+" r: " + row_index + " value" + c);
                     board[colum_index][row_index] = Integer.parseInt(""+c);
                     break;
             }
         }
 
         panel.getRenderer().getGame().getBoard().setBoard(board);
+
+        if((panel.getRenderer().getGame().getBoard().stones.size()%2)==0){
+            panel.getRenderer().getGame().getControlStone().setIsRed(false);
+        }else {
+            panel.getRenderer().getGame().getControlStone().setIsRed(true);
+        }
+
         panel.getRenderer().getGame().setLockInput(false);
+        panel.requestRender();
 
     }
 
     public byte[] getBoardData(int[][] board){
 
         String out ="";
-
         for(int[] c:board){
 
             for(int i = 0;i<c.length;i++){
                 out+=(c[i]+":");
             }
-
             out+=";";
         }
-
         return out.getBytes();
 
     }

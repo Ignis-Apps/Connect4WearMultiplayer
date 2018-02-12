@@ -20,7 +20,7 @@ import com.google.android.gms.wearable.Wearable;
 public class MainActivityPhone extends AppCompatActivity implements DataClient.OnDataChangedListener, View.OnClickListener {
     public static final String LOG_TAG = "ignis_log";
 
-    private Button testBtn, startGameBtn, takeTurnBtn;
+    private Button testBtn, startGameBtn, automatchingBtn, myGamesBtn, takeTurnBtn;
 
     private DataClient dataClient;
 
@@ -37,12 +37,16 @@ public class MainActivityPhone extends AppCompatActivity implements DataClient.O
 
         gpgm = new GooglePlayGamesManager(this, this);
 
-        gpgm.signIn();
+        gpgm.startSignInIntent();
 
         testBtn = findViewById(R.id.button2);
         testBtn.setOnClickListener(this);
         startGameBtn = findViewById(R.id.button3);
         startGameBtn.setOnClickListener(this);
+        automatchingBtn = findViewById(R.id.button6);
+        automatchingBtn.setOnClickListener(this);
+        myGamesBtn = findViewById(R.id.buttonMyGames);
+        myGamesBtn.setOnClickListener(this);
         takeTurnBtn = findViewById(R.id.button7);
         takeTurnBtn.setOnClickListener(this);
     }
@@ -68,7 +72,19 @@ public class MainActivityPhone extends AppCompatActivity implements DataClient.O
         dataClient.removeListener(this);
     }
 
-    private void sendDataItem(String path, byte[] data) {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        gpgm.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        gpgm.onResume();
+    }
+
+    public void sendDataItem(String path, byte[] data) {
         PutDataRequest putDataReq = PutDataRequest.create(path);
         putDataReq.setUrgent();
         putDataReq.setData(data);
@@ -82,6 +98,12 @@ public class MainActivityPhone extends AppCompatActivity implements DataClient.O
                 // DataItem changed
                 DataItem item = event.getDataItem();
 
+                if(item.getUri().getPath().equals("/tookturn")){
+                    gpgm.takeTurn(item.getData());
+                } else if(item.getUri().getPath().equals("/finished")){
+                    gpgm.onFinishClicked();
+                }
+
                 Toast.makeText(this, "Path: " + item.getUri().getPath(), Toast.LENGTH_SHORT).show();
             } else if (event.getType() == DataEvent.TYPE_DELETED) {
                 // DataItem deleted
@@ -92,11 +114,15 @@ public class MainActivityPhone extends AppCompatActivity implements DataClient.O
     @Override
     public void onClick(View view) {
         if( view == testBtn){
-            sendDataItem("/test", Long.toBinaryString(System.currentTimeMillis()).getBytes());
+            sendDataItem("/taketurn", Long.toBinaryString(System.currentTimeMillis()).getBytes());
         }else if (view == startGameBtn){
-            gpgm.openOpponentSelection();
+            gpgm.onStartMatchClicked();
         } else if (view == takeTurnBtn){
-            gpgm.takeTimeTurn();
+
+        } else if (view == automatchingBtn){
+            gpgm.onQuickMatchClicked();
+        } else if (view == myGamesBtn) {
+            gpgm.onCheckGamesClicked();
         }
     }
 

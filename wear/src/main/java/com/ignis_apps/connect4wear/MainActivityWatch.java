@@ -16,7 +16,7 @@ package com.ignis_apps.connect4wear;
         import com.ignis_apps.connect4wear.Game.OpernGL.OpenGLPanel;
         import com.ignis_apps.connect4wear.Game.Scenes.GameInterface;
 
-public class MainActivityWatch extends WearableActivity implements DataClient.OnDataChangedListener,GameInterface{
+public class MainActivityWatch extends WearableActivity implements DataClient.OnDataChangedListener ,GameInterface{
 
     private DataClient dataClient;
     private OpenGLPanel panel;
@@ -59,8 +59,6 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
             }
         }
 
-        System.out.println("BOARD 0 0 :" + board[0][0]);
-
         panel.getRenderer().getGame().getBoard().setBoard(board);
         panel.getRenderer().getGame().setLockInput(false);
 
@@ -99,10 +97,15 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
 
     @Override
     public void onDataChanged(@NonNull DataEventBuffer dataEventBuffer) {
-        for (DataEvent event : dataEventBuffer) {
+        DataEvent event = dataEventBuffer.get(dataEventBuffer.getCount()-1);
+
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 // DataItem changed
                 DataItem item = event.getDataItem();
+
+                if(item.getUri().getPath().equals("/taketurn")){
+                    setBoardState(item.getData());
+                }
 
                 Toast.makeText(this, item.getUri().getPath(), Toast.LENGTH_SHORT).show();
 
@@ -110,7 +113,7 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
             } else if (event.getType() == DataEvent.TYPE_DELETED) {
                 // DataItem deleted
             }
-        }
+
     }
 
     @Override
@@ -118,9 +121,7 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
 
         panel.getRenderer().getGame().setLockInput(true);
         byte[] d = getBoardData(board);
-        System.out.println(new String(d));
-        setBoardState(d);
-
+        sendDataItem("/tookturn", d);
 
     }
 
@@ -131,6 +132,6 @@ public class MainActivityWatch extends WearableActivity implements DataClient.On
 
     @Override
     public void onGameCompleted(int player_who_won) {
-
+        sendDataItem("/finished", (""+player_who_won).getBytes());
     }
 }
